@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="main.css">
+<link href="erere.png" rel="shortcut icon"> 
+<body background="http://mein-fun.com/data/media/5/hacked_gif.gif"></body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CRUD - Javascript | Mr.Toni</title>
+</head>
+<body>
+    <div class="main">
+        <div >
+                <div id="blink">
+                        <span>
+                           <marquee>Simpel CRUD Javascript Mr.Toni</marquee>
+                        </span>
+            <form action="javascript:void(0);" method="post" onsubmit="tes.Add()">                
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="validationDefault03">Nama</label>
+                        <input type="text" class="form-control" id="addnama" placeholder="Nama" required>
+                   </div>
+                   <div class="col-md-6 mb-3">
+                        <label for="validationDefault04">NISN</label>
+                        <input type="number" class="form-control" id="addnisn" placeholder="Nomor Induk Siswa Nasional" required>
+                   </div>
+                </div>
+                <div>
+                <label for="addkelas">Kelas</label>                
+               <select class="custom-select mr-sm-2" id="addkelas" name="kelas" required>
+                    <option value="X RPL1">X RPL 1</option>
+                    <option value="X RPL2">X RPL 2</option>
+                    <option value="X RPL3">X RPL 3</option>
+                    <option value="X RPL4">X RPL 4</option>
+                    <option value="X RPL5">X RPL 5</option>
+                    <option value="X RPL6">X RPL 6</option>
+                    <option value="X RPL7">X RPL 7</option>
+                    <option value="X TKJ1">X TKJ 1</option>
+                    <option value="X TKJ2">X TKJ 2</option>
+                    <option value="X TKJ3">X TKJ 3</option>
+                    <option value="X TKJ4">X TKJ 4</option>
+                    <option value="X TKJ5">X TKJ 5</option>
+                    <option value="X TKJ6">X TKJ 6</option>
+                    </select>
+                </div>
+                <button type="submit" style="margin-top:30px;" class="btn btn-outline-success btn-lg btn-block">Tambahkan</button>        
+            </form>
+
+            <div style="margin-top: 30px;">
+            <h2>Edit Form</h2>
+ 
+            <div>
+                <div class="col" id="formedit" role="aria-hidden">                  
+                        <form action="javascript:void(0);" method="post" id="saveedit">
+                        <label for="editnama">Nama</label>
+                            <input class="form-control is-invalid" type="text" id="editnama" placeholder="Edit">
+                            <input style="margin-top: 20px;" class="btn btn-outline-warning" type="submit" value="edit">
+                    </div>
+                    <div class="col">
+                        <label for="editnisn">NISN</label>                    
+                            <input class="form-control is-invalid" type="number" id="editnisn" placeholder="Edit">
+                            <input style="margin-top: 20px;" class="btn btn-outline-warning" type="submit" value="edit">                    
+                        </form>                     
+                    </div>         
+                </div>
+            </div>
+            <p id="hitung"></p>
+            <table class="table table-striped table-dark">
+                <thead>                
+                    <th style="text-align: center">Nama</th>                
+                    <th style="text-align: center">NISN</th>
+                    <th style="text-align: center">kelas</th>
+                    <th style="text-align: right">Aksi</th>                                   
+                </thead>
+                <tbody id="isi">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- script js bro-->
+    <script>
+        //THIS = Kode supaya bisa diakses -> di php itu "global"
+
+        var tes = new (function(data){
+            this.getName = document.getElementById("isi");
+            this.getNs = document.getElementById("addnisn");
+            this.getKs = document.getElementById("addkelas");
+            this.Name = []; // untuk menampuk data array
+            this.Ns=[];
+            this.Ks=[];
+
+            //HITUNG
+            this.Hitung = function(data){
+                var use = document.getElementById("hitung");
+                var nama = "Siswa";
+                if(data){
+                    hitung.innerHTML=data+" "+ nama;
+                }else{
+                    hitung.innerHTML="Tidak ada " + nama ;
+                }
+            };
+
+            //TAMPIL DATA
+            this.ShowData = function(){
+                var datasatu = " ";
+                if(this.Name.length>0){
+                    for(i=0; i< this.Name.length; i++){
+                        datasatu += "<tr>"
+                        datasatu += '<td style="text-align: center">' + this.Name[i] +"</td>"
+                        datasatu += '<td style="text-align: center">' + this.Ns[i] +"</td>"
+                        datasatu += '<td style="text-align: center">' + this.Ks[i] +"</td>"
+                        datasatu += '<td> <button class="btn btn-outline-warning " onclick="tes.Edit('+ i +')">Edit</button> </td>'
+                        datasatu += '<td> <button class="btn btn-outline-danger" onclick="tes.Delete('+ i +')">Hapus</button> </td>'
+                    }
+                }
+                this.Hitung(this.Name.length);
+                return (this.getName.innerHTML = datasatu);
+            };
+
+
+            // TAMBAH
+            this.Add = function(){
+                var addnam = document.getElementById("addnama");     
+                var addns = document.getElementById("addnisn")  
+                var addks = document.getElementById("addkelas")           
+                var add = addnam.value;   
+                var adds = addns.value;      
+                var addk = addks.value;       
+
+                if(addnam){
+                    this.Name.push(add.trim()); //push buat ngirim value
+                    this.Ns.push(adds.trim());
+                    this.Ks.push(addk.trim());
+                    addnam.value="";
+                    addnisn.value="";
+                    addks.value="";
+                    this.ShowData();
+                }
+            };
+            
+
+            //EDIT
+            this.Edit = function(item){
+                var editnama = document.getElementById("editnama");
+                var editnisn = document.getElementById("editnisn");
+              
+                //menampilkan data
+                editnama.value=this.Name[item]; //Menggunakan [] karena item itu array
+                editnisn.value=this.Ns[item];                                         
+                lol = this;
+                document.getElementById("saveedit").onsubmit= function(){
+                    var namasatu=editnama.value;
+                    var nisnsatu=editnisn.value;             
+                    if(namasatu,nisnsatu){
+                        lol.Name.splice(item,1,namasatu.trim());
+                        lol.Ns.splice(item,1,nisnsatu.trim());
+                        
+                        lol.ShowData();
+                        CloseInput();
+                    }
+                };
+                
+            };
+
+            //DELETE
+            this.Delete = function (item){
+                this.Name.splice(item,1)
+                this.ShowData()
+            };
+            function CloseInput(){
+                document.getElementById("formedit").style.display="none";
+            }
+        });
+    </script>
+</body>
+</html>
